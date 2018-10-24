@@ -1,0 +1,8 @@
+.idea
+*.iml
+out
+gen
+coverage
+node_modules
+*conifg.js
+index.html

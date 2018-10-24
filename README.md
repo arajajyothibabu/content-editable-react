@@ -1,1 +1,1 @@
-# react-edit-inline
+# Content Editable React
