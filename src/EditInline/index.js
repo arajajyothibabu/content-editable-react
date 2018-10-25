@@ -6,6 +6,10 @@ import PropTypes from 'prop-types';
  */
 export default function contentEditable(WrappedComponent) {
 
+    if(typeof WrappedComponent !== "string"){
+        throw new TypeError('Expecting a basic HTML element as string');
+    }
+
     return class extends React.Component {
 
         state = {
@@ -29,12 +33,16 @@ export default function contentEditable(WrappedComponent) {
         }
 
         edit = () => {
-            this.setState({editing: true}, this.domElm.focus);
+            this.setState({editing: true}, () => {
+                this.domElm.focus();
+            });
         };
 
         save = () => {
             const { handleUpdate = () => null, value } = this.props;
-            handleUpdate(value);
+            if(this.isValueChanged()){
+                handleUpdate(this.domElm.textContent);
+            }
             this.setState({editing: false});
         };
 
@@ -51,7 +59,7 @@ export default function contentEditable(WrappedComponent) {
             switch (key) {
                 case 'Enter':
                     if(e.shiftKey){
-                       break;
+                        break;
                     }
                 case 'Escape':
                     this.save();
@@ -60,7 +68,7 @@ export default function contentEditable(WrappedComponent) {
         };
 
         render() {
-            const { editOnClick = true } = this.props;
+            const { editOnClick = true, initialValue } = this.props;
             const { editing } = this.state;
             return (
                 <WrappedComponent
@@ -74,7 +82,7 @@ export default function contentEditable(WrappedComponent) {
                     onKeyDown={this.handleKeyDown}
                     {...this.props}
                 >
-                    {this.props.value}
+                    {initialValue}
                 </WrappedComponent>
             )
         }

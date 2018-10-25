@@ -1,6 +1,6 @@
 {
   "name": "content-editable-react",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Jyothi Babu Araja <arajajyothibabu@gmail.com>",
   "description": "An utility to make html elements content editable",
   "license": "MIT",
